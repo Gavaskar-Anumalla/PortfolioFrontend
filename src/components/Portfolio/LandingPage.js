@@ -105,7 +105,7 @@ function LandingPage() {
                           <td>{item.fundManagerName}</td>
                           <td>{item.benchmark}</td>
                           <td>
-                            <Link to="/theme">{item.themeName}</Link>
+                            <Link to="/theme" state={{transferObject:item}} >{item.themeName}</Link>
                           </td>
                           <td>{item.initialInvestment}</td>
                           <td>{item.currentValue}</td>

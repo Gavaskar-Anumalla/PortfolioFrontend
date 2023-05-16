@@ -14,7 +14,7 @@ function App() {
         {/* <Route path='/' element={<LandingPage/>}></Route> */}
         <Route path="/portheader" element={<PortHeader />}></Route>
         <Route path="/portcomposition" element={<PortComposition />}></Route>
-        <Route path="/theme" component={<Theme/>}></Route>
+        <Route path="/theme" element={<Theme/>}></Route>
       </Routes>
       <Outlet/>
     </div>

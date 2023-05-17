@@ -7,12 +7,12 @@ import { useEffect, useState } from "react";
 import HeaderService from "../../services/HeaderService";
 
 import { useLocation } from "react-router-dom";
-
+import "./Theme.css";
 const Theme = () => {
   const location = useLocation();
   const { transferObject } = location.state;
 
-  console.log(transferObject);
+ // console.log(transferObject);
 
   const [themeName, setThemeName] = useState("");
 
@@ -40,12 +40,14 @@ const Theme = () => {
       });
   }, []);
 
+  console.log(theme)
+
   return (
     <>
       <Navbar />
-      <div className="c1">
-        <div className="c2">
-          <h1>Theme</h1>
+      <div className="card">
+        <div className="c-head">
+          <h1>View Theme</h1>
         </div>
 
         <table>
@@ -53,58 +55,27 @@ const Theme = () => {
             <tr bgcolor="#FFC300">
               <th>Theme</th>
               <th>Mix</th>
-              <th>Allocation %</th> <th>Risk</th>
+              <th>Allocation %</th> 
+              <th>Risk</th>
               <th>Investment Horizon</th>{" "}
             </tr>
           </thead>
 
           <tbody>
-            {/* trial */}
-            {theme.loading
-              ? ""
-              : theme.data.map((item, index) => {
-                  return (
-                    <tr key={item.themeName}>
-                      <td>{item.themeName}</td>
-                      <td>{item.equity}</td>
-                      <td>{item.allocation}</td>
-                      <td>{item.risk}</td>
-                      <td>{item.investmentHorizon}</td>
-                    </tr>
-                  );
-                })}
-
-            {/* <tr>
-
-            <td rowSpan={3}>Aggressive</td>
-
-            <td>Equities</td>
-
-            <td>75%</td>
-
-            <td rowSpan={3}>High</td>
-
-            <td rowSpan={3}>Long Term</td>
-
-          </tr>
-
-          <tr>
-
-            <td>Commodities</td>
-
-            <td>15%</td>
-
-          </tr>
-
-          <tr>
-
-            <td>Alternative Investments</td>
-
-            <td>10%</td>
-
-          </tr> */}
+            
+            {
+              theme.loading?"":<tr>
+                <td>{theme.data.themeName}</td>
+                <td></td>
+                <td></td>
+                <td>{theme.data.risk}</td>
+                <td>{theme.data.investmentHorizon}</td>
+                
+              </tr>
+            }
           </tbody>
         </table>
+        {transferObject.themeName}
       </div>
     </>
   );

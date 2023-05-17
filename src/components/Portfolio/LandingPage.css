@@ -1,17 +1,21 @@
 .my-table {
   border-collapse: collapse;
-  margin-top: -20px;
-  width: 100%;
-  margin-left: -5%;
-  
-}
 
+  margin-top: -20px;
+
+  width: 100%;
+
+  margin-left: -5%;
+}
 
 .my-table th,
 .my-table td {
   border: 1px solid black;
+
   padding: 8px;
+
   text-align: left;
+
   font-family: "Times New Roman", Times, serif;
 }
 
@@ -19,6 +23,10 @@
   background-color: rgb(158, 217, 237);
 
   font-weight: bold;
+}
+
+.my-table {
+  margin-top: -10%;
 }
 
 .tabs {
@@ -33,42 +41,40 @@
   font-weight: bolder;
 
   font-size: 150%;
+
   /* margin-bottom: 0.7%; */
-  margin-top: 10%;
+  
+   margin-top: 10%;
+
   margin-right: 80%;
 }
-/* anybutton {
-  top: 19%;
-
-  left: 82%;
-
-  width: 100px;
-
-  height: 35px;
-
-  position: absolute;
-
-  z-index: 2;
-
-  background: rgb(74, 187, 248);
-} */
-
 .input {
+
   top: 55%;
+  
   left: 50%;
+  
   width: 100px;
+  
   height: 35px;
+  
   position: absolute;
-  z-index: 2;
-}
-
-.add {
+  
+   z-index: 2;
+  
+  }
+  
+  
+  
+  
+  .add {
+  
   padding: 15%;
-  margin-left: 90%;
-  margin-top: -15%;
-}
-
-.del {
-  margin-left: 100%;
-  margin-top: -35%;
-}
+  
+  /* margin-right: -66%; */
+  
+   margin-top: -19%;
+  
+  
+   margin-left: 83%;
+  }

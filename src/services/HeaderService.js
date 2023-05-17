@@ -52,7 +52,7 @@ class HeaderService {
     return axios.get(`${HEADER_BASE_URL}/fetchByName/` + portfolioName);
   }
 
-  //to display based on theme
+  //to display  theme details based on theme
 
   fetchByTheme(themeName) {
     return axios.get(`${THEME_URL}/fetchByName/` + themeName);

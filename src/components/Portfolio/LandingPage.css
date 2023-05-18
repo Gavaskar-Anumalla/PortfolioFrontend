@@ -43,38 +43,42 @@
   font-size: 150%;
 
   /* margin-bottom: 0.7%; */
-  
-   margin-top: 10%;
+
+  margin-top: 10%;
 
   margin-right: 80%;
 }
 .input {
-
   top: 55%;
-  
+
   left: 50%;
-  
+
   width: 100px;
-  
+
   height: 35px;
-  
+
   position: absolute;
-  
-   z-index: 2;
-  
-  }
-  
-  
-  
-  
-  .add {
-  
+
+  z-index: 2;
+}
+
+.add {
   padding: 15%;
-  
+
   /* margin-right: -66%; */
-  
-   margin-top: -19%;
-  
-  
-   margin-left: 83%;
-  }
+
+  margin-top: -19%;
+
+  margin-left: 83%;
+}
+
+/* .btn{
+  width: auto;
+  background-color:black;
+  color:white;
+  padding: 10px;
+
+}
+.btn:hover{
+  background-color: aliceblue;
+} */

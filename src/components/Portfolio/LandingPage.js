@@ -47,7 +47,7 @@ function LandingPage() {
           </div>
 
           <div className="add">
-            <button>
+            <button >
               <svg
                 onClick={() => navigate("/portheader")}
                 xmlns="http://www.w3.org/2000/svg"
@@ -98,20 +98,24 @@ function LandingPage() {
                         <tr key={item.portfolioName}>
                           <td>{index + 1}</td>
                           <td>
-                            <Link to="/portcomposition" state={{transferObject:item}}>
+                            <Link
+                              to="/portcomposition"
+                              state={{initialInvestment:item.initialInvestment,portfolioName:item.portfolioName,themeName:item.themeName}}
+                            >
                               {item.portfolioName}
                             </Link>
                           </td>
                           <td>{item.fundManagerName}</td>
                           <td>{item.benchmark}</td>
                           <td>
-                            <Link to="/theme" state={{transferObject:item}} >{item.themeName}</Link>
+                            <Link to="/theme" state={{ transferObject: item }}>
+                              {item.themeName}
+                            </Link>
                           </td>
                           <td>{item.initialInvestment}</td>
                           <td>{item.currentValue}</td>
                           <td>{item.noOfSecurities}</td>
                           <td className="del">
-                           
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="25"

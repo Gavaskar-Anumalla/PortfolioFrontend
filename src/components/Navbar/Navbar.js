@@ -23,7 +23,7 @@ const Navbar = () => {
           </svg>
         </button>
         <a class="nav-link" href="#">
-          <h2>Portfolio Manager</h2>
+          <h2 >Portfolio Manager</h2>
         </a>
       </nav>
     </nav>

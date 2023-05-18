@@ -2,25 +2,28 @@ import React from "react";
 import "./PortHeader.css";
 import Navbar from "../Navbar/Navbar";
 import { useState } from "react";
-import { Navigate, useNavigate,Link } from "react-router-dom";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 import HeaderService from "../../services/HeaderService";
+import PortComposition from "./PortComposition";
 
 const PortHeader = (props) => {
   const [portfolioName, setPortfolioName] = useState("");
   const [fundManagerName, setFundManagerName] = useState("");
   const [baseCurrency, setBaseCurrency] = useState("");
   const [initialInvestment, setInitialInvestment] = useState("");
-  const [currInvestment, setCurrInvestment] = useState("");
+  const [currInvestment, setCurrInvestment] = useState(initialInvestment);
   const [exchange, setExchange] = useState("");
   const [rebalancingFrequency, setRebalancingFrequency] = useState("");
   const [benchmark, setBenchmark] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("new");
   const [themes, setThemes] = useState("");
   const [message, setMessage] = useState("");
+  const [responseData,setResponseData]=useState({});
   const navigate = useNavigate();
 
   const savePortfolioHeader = () => {
     console.log("hello i am from saveportfolioheader");
+
     let headerObj = {
       portfolioName: portfolioName,
       baseCurrency: baseCurrency,
@@ -28,7 +31,7 @@ const PortHeader = (props) => {
       benchmark: benchmark,
       fundManagerName: fundManagerName,
       initialInvestment: initialInvestment,
-      currentValue: currInvestment,
+      currentValue: initialInvestment,
       rebalancingFrequency: rebalancingFrequency,
       status: status,
       themeName: themes,
@@ -37,8 +40,11 @@ const PortHeader = (props) => {
     HeaderService.createPortfolio(headerObj)
       .then((response) => {
         setMessage("Portfolio Created Successfully");
+        setResponseData(response.data);
+        let responseData1=response.data;
         console.log(response.data);
-        navigate("/")
+        navigate("/portcomposition",{state:{portfolioName:responseData1.portfolioName,themeName:responseData1.theme.themeName,initialInvestment:responseData1.initialInvestment}})
+         
       })
       .catch((error) => {
         console.log(error);
@@ -148,7 +154,7 @@ const PortHeader = (props) => {
                     name="Initial Investment"
                   />
                 </p>
-                <p>
+                {/* <p>
                   <p className="p5">Current value of Investment</p>
                   <input
                     onChange={(e) => {
@@ -159,7 +165,7 @@ const PortHeader = (props) => {
                     placeholder="500 CRORES"
                     name="Current Investment"
                   />
-                </p>
+                </p> */}
                 <p>
                   <p className="p6">Exchange</p>
                   <input
@@ -199,7 +205,7 @@ const PortHeader = (props) => {
                     name="Benchmark"
                   />
                 </p>
-                <p>
+                {/* <p>
                   <p className="p9">Status</p>
                   <input
                     onChange={(e) => {
@@ -210,7 +216,7 @@ const PortHeader = (props) => {
                     placeholder="Display"
                     name="Status"
                   />
-                </p>
+                </p> */}
                 <p>
                   <p className="Themes">Themes</p>
                   <div className="drop">
@@ -221,19 +227,19 @@ const PortHeader = (props) => {
                       }}
                       value={props.selected}
                     >
-                      <option value="Conservative">Conservative</option>
-                      
-                      <option value="Aggressive">Aggressive</option>
-                      <option value="Moderately Aggressive">
+                      <option value="conservative">Conservative</option>
+
+                      <option value="aggressive">Aggressive</option>
+                      <option value="moderatively aggressive">
                         Moderately Aggressive
                       </option>
-                      <option value="Very Aggressive">VeryAggressive</option>
+                      <option value="very aggressive">VeryAggressive</option>
                     </select>
                   </div>
                 </p>
                 {/* ()=>navigate('/portcomposition') */}
               </form>
-              {message}
+              
               <button
                 className="btn btn-primary submit"
                 onClick={() => {
@@ -246,6 +252,7 @@ const PortHeader = (props) => {
               <button className="btn btn-info reset" type="reset">
                 RESET
               </button>
+              {message}
             </div>
           </div>
         </div>

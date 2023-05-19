@@ -106,6 +106,7 @@ const PortComposition = () => {
     if(exceedError==true){
       window.alert("you have exceed your invested amount, please decrease the quantity");
       setQuantity("")
+      setExceedError(false)
       return <PortComposition></PortComposition>
     }
     let compositionObject = {

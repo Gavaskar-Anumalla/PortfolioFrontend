@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 
 import { useEffect, useState } from "react";
@@ -12,7 +12,7 @@ const Theme = () => {
   const location = useLocation();
   const { transferObject } = location.state;
 
- // console.log(transferObject);
+  // console.log(transferObject);
 
   const [themeName, setThemeName] = useState("");
 
@@ -40,11 +40,12 @@ const Theme = () => {
       });
   }, []);
 
-  console.log(theme)
+  console.log(theme);
 
   return (
     <>
       <Navbar />
+      {/* <h1>View Theme</h1> */}
       <div className="card">
         <div className="c-head">
           <h1>View Theme</h1>
@@ -54,29 +55,32 @@ const Theme = () => {
           <thead>
             <tr bgcolor="#FFC300">
               <th>Theme</th>
-              <th>Mix</th>
-              <th>Allocation %</th> 
+              <th >Mix</th>
+              <th>Allocation %</th>
               <th>Risk</th>
               <th>Investment Horizon</th>{" "}
             </tr>
           </thead>
 
           <tbody>
-            
-            {
-              theme.loading?"":<tr>
+            {theme.loading ? (
+              ""
+            ) : (
+              <tr>
                 <td>{theme.data.themeName}</td>
-                <td></td>
-                <td></td>
+                <td >Equity ,bonds</td>
+               
+                <td>{theme.data.equities}</td>
                 <td>{theme.data.risk}</td>
                 <td>{theme.data.investmentHorizon}</td>
-                
               </tr>
-            }
+            )}
           </tbody>
         </table>
-        {transferObject.themeName}
+        
       </div>
+
+      <Link className="btn btn-primary" to='/'>Go Back</Link>
     </>
   );
 };

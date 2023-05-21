@@ -7,10 +7,11 @@
     align-items: center;
     margin:10px auto;
     height: 400px;
+    margin: 40px auto;
 }
 
 .c-head{
-    background-color: grey;
+    
     margin-top: 10px;
     margin-bottom: 10px;
 } 
@@ -21,5 +22,7 @@
 table{
     box-sizing: border-box;
     width: 80%;
+    margin: 40px auto;
     justify-content: center;
+    
 }

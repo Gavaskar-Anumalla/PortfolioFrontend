@@ -11,7 +11,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route exact path="/" element={<LandingPage />}></Route>
-        {/* <Route path='/' element={<LandingPage/>}></Route> */}
+     
         <Route path="/portheader" element={<PortHeader />}></Route>
         <Route path="/portcomposition" element={<PortComposition />}></Route>
         <Route path="/theme" element={<Theme/>}></Route>

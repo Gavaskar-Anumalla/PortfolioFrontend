@@ -4,7 +4,7 @@ const FETCH_DATA_URL = "http://localhost:2021/api/master/fetchData";
 
 const HEADER_BASE_URL = "http://localhost:2021/header";
 const COMPOSITION_BASE_URL = "http://localhost:2021/Composition";
- const THEME_URL="http://localhost:2021/Themes";
+const THEME_URL="http://localhost:2021/Themes";
 
 class HeaderService {
   //to create the portfolio
@@ -57,5 +57,13 @@ class HeaderService {
   fetchByTheme(themeName) {
     return axios.get(`${THEME_URL}/fetchByName/` + themeName);
   }
+
+  updatePortfolio(portfolioName,portfolioHeader){
+    return axios.put(`${HEADER_BASE_URL}/editPortfolio/`+portfolioName,portfolioHeader)
+  }
+  deletePortfolio(portfolioName){
+    return axios.put(`${HEADER_BASE_URL}/deletePortfolio/`+portfolioName)
+  }
+
 }
 export default new HeaderService();

@@ -4,6 +4,9 @@ import Navbar from "../Navbar/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import HeaderService from "../../services/HeaderService";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -11,6 +14,25 @@ function LandingPage() {
     data: [],
     loading: true,
   });
+  const [show, setShow] = useState(false);
+  const [fundManagerName, setFundManagerName] = useState();
+  const [portfolioName, setPortfolioName] = useState();
+  const [portfolioData,setPortfolioData]=useState([])
+
+  const handleClose = () => setShow(false);
+  const handleShow = (portfolioName) => {
+    console.log(portfolioName);
+    setShow(true);
+  };
+  const handleDelete=(portfolioName)=>{
+    if(!window.confirm("Are you sure you want to delete?")){
+      return ;
+    }
+    HeaderService.deletePortfolio(portfolioName).then((response)=>{
+      setPortfolioData(response.data)
+    }).catch((error)=>{console.log(error)})
+
+  }
 
   useEffect(() => {
     HeaderService.fetchHomePageData()
@@ -26,8 +48,65 @@ function LandingPage() {
   }, []);
   console.log(portfolios);
 
+  const handleSave = () => {
+    console.log("edit button clicked");
+
+
+    // let updateHeaderObj = {
+    //   portfolioName: portfolioName,
+    //   baseCurrency: baseCurrency,
+    //   exchange: exchange,
+    //   benchmark: benchmark,
+    //   fundManagerName: fundManagerName,
+    //   initialInvestment: initialInvestment,
+    //   currentValue: initialInvestment,
+    //   rebalancingFrequency: rebalancingFrequency,
+    //   status: status,
+    //   themeName: themes,
+    // };
+
+    setShow(false);
+  };
+
   return (
     <div>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Modal title</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                autoFocus
+              />
+            </Form.Group>
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>Example textarea</Form.Label>
+              <Form.Control as="textarea" rows={3} />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSave}>
+            Save changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <div>
         <Navbar />
       </div>
@@ -47,7 +126,7 @@ function LandingPage() {
           </div>
 
           <div className="add">
-            <button >
+            <button>
               <svg
                 onClick={() => navigate("/portheader")}
                 xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +166,7 @@ function LandingPage() {
                   <th>Current Value</th>
                   {/* <th>returns</th> */}
                   <th>No of holdings</th>
-                  <th>action</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -100,7 +179,11 @@ function LandingPage() {
                           <td>
                             <Link
                               to="/portcomposition"
-                              state={{initialInvestment:item.initialInvestment,portfolioName:item.portfolioName,themeName:item.themeName}}
+                              state={{
+                                initialInvestment: item.initialInvestment,
+                                portfolioName: item.portfolioName,
+                                themeName: item.themeName,
+                              }}
                             >
                               {item.portfolioName}
                             </Link>
@@ -123,6 +206,10 @@ function LandingPage() {
                               fill="currentColor"
                               class="bi bi-pen"
                               viewBox="0 0 16 16"
+                              style={{ marginRight: "10px" }}
+                              onClick={() => {
+                                handleShow(item.portfolioName);
+                              }}
                             >
                               <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
                             </svg>
@@ -134,6 +221,7 @@ function LandingPage() {
                               class="bi bi-trash-fill"
                               viewBox="0 0 16 16"
                               margin-right="50px"
+                              onClick={()=>{handleDelete(item.portfolioName)}}
                             >
                               <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                             </svg>

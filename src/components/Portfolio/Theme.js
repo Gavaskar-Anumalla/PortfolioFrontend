@@ -44,7 +44,7 @@ const Theme = () => {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       {/* <h1>View Theme</h1> */}
       <div className="card">
         <div className="c-head">
@@ -58,17 +58,15 @@ const Theme = () => {
               <th >Mix</th>
               <th>Allocation %</th>
               <th>Risk</th>
-              <th>Investment Horizon</th>{" "}
+              <th>Investment Horizon</th>
             </tr>
           </thead>
 
           <tbody>
-            {theme.loading ? (
-              ""
-            ) : (
+            {theme.loading ? "" : (
               <tr>
                 <td>{theme.data.themeName}</td>
-                <td >Equity ,bonds</td>
+                <td >Equity </td>
                
                 <td>{theme.data.equities}</td>
                 <td>{theme.data.risk}</td>

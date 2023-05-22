@@ -25,7 +25,7 @@ const PortComposition = () => {
   });
 
   const [savedData, setSavedData] = useState();
-  const [remainingBalance, setRemainingBalance] = useState();
+  //const [remainingBalance, setRemainingBalance] = useState();
 
   //to display the usm
   useEffect(() => {
@@ -144,11 +144,11 @@ const PortComposition = () => {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <Navbar />
-      </div>
+      </div> */}
       <div className="c1">
-        <h1>Portfolio Composition</h1>
+        <h1>Asset and Holdings Details</h1>
         <div className="box"></div>
 
         <div className="container">
@@ -173,8 +173,10 @@ const PortComposition = () => {
         </div>
         <br></br>
         <div className="container">
+          <h2>Portfolio Composition</h2>
           <div className="t-gap">
             <table className="table table-bordered table-striped container">
+             
               <thead>
                 <tr style={{ backgroundColor: "black", color: "white" }}>
                   <th>Security Name</th>
@@ -212,7 +214,7 @@ const PortComposition = () => {
           </div>
         </div>
         <div className="c2">
-          <button className="l1">Add securities</button>
+          <button className="btn btn-primary l1" type="submit" onClick={savePortfolioComposition}>Add securities</button>
         </div>
         <table>
           <tr bgcolor="#FFC300">
@@ -285,17 +287,17 @@ const PortComposition = () => {
             <td>{value}</td>
           </tr>
         </table>
-        <div className="sub">
+        {/* <div className="sub">
           <button
             className="btn btn-info submit"
             type="submit"
             onClick={savePortfolioComposition}
           >
             SAVE
-          </button>
+          </button> */}
 
           <div>{message}</div>
-        </div>
+       
       </div>
     </div>
   );

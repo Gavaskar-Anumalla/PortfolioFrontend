@@ -53,9 +53,9 @@ const PortHeader = (props) => {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <Navbar />
-      </div>
+      </div> */}
       <nav className="tab">
         <div className="container">
           <div className="wrapper">
@@ -248,10 +248,8 @@ const PortHeader = (props) => {
               >
                 Save
               </button>
-              &nbsp;&nbsp;
-              <button className="btn btn-info reset" type="reset">
-                RESET
-              </button>
+             
+              
               {message}
             </div>
           </div>

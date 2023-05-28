@@ -61,6 +61,10 @@ class HeaderService {
   fetchByPortfolioName(portfolioName) {
     return axios.get(`${HEADER_BASE_URL}/fetchByName/` + portfolioName);
   }
+
+  fetchByAsset(assetClass) {
+    return axios.get(`${HEADER_BASE_URL}/fetchByAsset/` + assetClass);
+  }
   updatePortfolio(portfolioName, portfolioHeader) {
     return axios.put(
       `${HEADER_BASE_URL}/editPortfolio/` + portfolioName,
@@ -69,6 +73,10 @@ class HeaderService {
   }
   deletePortfolio(portfolioName) {
     return axios.delete(`${HEADER_BASE_URL}/deletePortfolio/` + portfolioName);
+  }
+
+  fetchAllThemes() {
+    return axios.get(`${THEME_URL}/fetchThemes`);
   }
 }
 export default new HeaderService();

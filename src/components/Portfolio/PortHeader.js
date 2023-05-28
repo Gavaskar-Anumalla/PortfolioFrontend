@@ -1,10 +1,11 @@
 import React from "react";
 import "./PortHeader.css";
 import Navbar from "../Navbar/Navbar";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 import HeaderService from "../../services/HeaderService";
 import PortComposition from "./PortComposition";
+import Validation from "./Validation";
 
 const PortHeader = (props) => {
   const [portfolioName, setPortfolioName] = useState("");
@@ -15,12 +16,48 @@ const PortHeader = (props) => {
   const [exchange, setExchange] = useState("");
   const [rebalancingFrequency, setRebalancingFrequency] = useState("");
   const [benchmark, setBenchmark] = useState("");
-  const [status, setStatus] = useState("new");
   const [themes, setThemes] = useState("");
+  //const [errors, setErrors] = useState({});
+
+  // const handleFormsubmit = (event) => {
+  //   //event.preventDefault();
+  //   setErrors(Validation(values));
+  // };
+
+  // const handleChange = (event) => {
+  //   setValues({
+  //     ...values,
+
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
+  const [status, setStatus] = useState("new");
+  // const [values, setValues] = useState({
+  //   portfolioName: "",
+  //   fundManagerName: "",
+  //   baseCurrency: "INR",
+  //   initialInvestment: "",
+  //   exchange: "NSE",
+  //   rebalancingFrequency: "",
+  //   benchmark: "NIFTY 50",
+  //   themeName: "",
+  // });
+
   const [message, setMessage] = useState("");
-  const [responseData,setResponseData]=useState({});
+  const [responseData, setResponseData] = useState({});
+  const [themeData,setThemeData]=useState([])
   const navigate = useNavigate();
 
+
+  useEffect(() => {
+    HeaderService.fetchAllThemes()
+      .then((response) => {
+        setThemeData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   const savePortfolioHeader = () => {
     console.log("hello i am from saveportfolioheader");
 
@@ -36,15 +73,34 @@ const PortHeader = (props) => {
       status: status,
       themeName: themes,
     };
+    // let headerObj = {
+    //   portfolioName: values.portfolioName,
+    //   baseCurrency: values.baseCurrency,
+    //   exchange: values.exchange,
+    //   benchmark: values.benchmark,
+    //   fundManagerName: values.fundManagerName,
+    //   initialInvestment: values.initialInvestment,
+    //   currentValue: values.initialInvestment,
+    //   rebalancingFrequency: values.rebalancingFrequency,
+    //   status: values.status,
+    //   themeName: values.themeName,
+    // };
+
     console.log(headerObj);
+    
     HeaderService.createPortfolio(headerObj)
       .then((response) => {
         setMessage("Portfolio Created Successfully");
         setResponseData(response.data);
-        let responseData1=response.data;
+        let responseData1 = response.data;
         console.log(response.data);
-        navigate("/portcomposition",{state:{portfolioName:responseData1.portfolioName,themeName:responseData1.theme.themeName,initialInvestment:responseData1.initialInvestment}})
-         
+        navigate("/portcomposition", {
+          state: {
+            portfolioName: responseData1.portfolioName,
+            themeName: responseData1.theme.themeName,
+            initialInvestment: responseData1.initialInvestment,
+          },
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -53,9 +109,6 @@ const PortHeader = (props) => {
 
   return (
     <div>
-      {/* <div>
-        <Navbar />
-      </div> */}
       <nav className="tab">
         <div className="container">
           <div className="wrapper">
@@ -117,6 +170,9 @@ const PortHeader = (props) => {
                     placeholder="Enter portfolio name"
                     name="Portfolio name"
                   />
+                  {/* {errors.portfolioName && (
+                    <p className="error">{errors.portfolioName}</p>
+                  )} */}
                 </p>
                 <p>
                   <p className="p2"> Fund Manager</p>
@@ -150,7 +206,7 @@ const PortHeader = (props) => {
                     }}
                     value={initialInvestment}
                     type="text"
-                    placeholder="500 CRORES"
+                    placeholder=""
                     name="Initial Investment"
                   />
                 </p>
@@ -227,19 +283,21 @@ const PortHeader = (props) => {
                       }}
                       value={props.selected}
                     >
-                      <option value="conservative">Conservative</option>
+                      <option value="">Select the theme</option>
 
-                      <option value="aggressive">Aggressive</option>
-                      <option value="moderatively aggressive">
-                        Moderately Aggressive
-                      </option>
-                      <option value="very aggressive">VeryAggressive</option>
+                      {themeData.map((item) => {
+                        return (
+                          <option value={item.themeName}>
+                            {item.themeName}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                 </p>
                 {/* ()=>navigate('/portcomposition') */}
               </form>
-              
+
               <button
                 className="btn btn-primary submit"
                 onClick={() => {
@@ -248,8 +306,7 @@ const PortHeader = (props) => {
               >
                 Save
               </button>
-             
-              
+
               {message}
             </div>
           </div>

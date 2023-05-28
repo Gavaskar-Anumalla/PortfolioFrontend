@@ -9,16 +9,18 @@ const PortComposition = () => {
   console.log(transferObject);
 
   let nameInput = useRef();
+  let assetInput = useRef();
 
   const [masterData, setMasterData] = useState([]);
   const [isinNumber, setIsinNumber] = useState();
   const [nameOfCompany, setNameOfCompany] = useState();
+  const [assetClass, setAssetClass] = useState();
   const [reqData, setReqData] = useState("");
   const [quantity, setQuantity] = useState();
   const [value, setValue] = useState();
   const [message, setMessage] = useState("");
   const [availableBalance, setAvailableBalance] = useState();
-  const [exceedError,setExceedError]=useState(false);
+  const [exceedError, setExceedError] = useState(false);
   const [compositionData, setCompositionData] = useState({
     data: [],
     loading: true,
@@ -45,28 +47,36 @@ const PortComposition = () => {
       transferObject.portfolioName
     )
       .then((response) => {
-        let localComposotionData=response.data;
+        let localComposotionData = response.data;
         setCompositionData({
           data: response.data,
           loading: false,
         });
-        let temp=0;
-      localComposotionData.portfoliocomposition.map((item) => {
-      temp=temp+item.value;
-    });
-     setAvailableBalance(transferObject.initialInvestment-temp)
+        let temp = 0;
+        localComposotionData.portfoliocomposition.map((item) => {
+          temp = temp + item.value;
+        });
+        setAvailableBalance(transferObject.initialInvestment - temp);
       })
       .catch((error) => {
         console.log(error);
       });
-      
-
   }, [savedData]);
   console.log(compositionData);
 
-  
-  
- 
+  const handleAsset = (e) => {
+    console.log(assetInput.current.value);
+    setAssetClass(e.target.value);
+    HeaderService.fetchByAsset(assetInput.current.value)
+      .then((response) => {
+        setMasterData(response.data);
+        console.log(masterData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleSearch = (e) => {
     console.log(nameInput.current.value);
     setNameOfCompany(e.target.value);
@@ -95,19 +105,23 @@ const PortComposition = () => {
   }; */
   const calculateValue = (e) => {
     setQuantity(e.target.value);
-    setValue(Math.round(e.target.value * reqData.lastPrice*100)/100);
-    if((Math.round(e.target.value * reqData.lastPrice*100)/100)>=availableBalance){
-      setExceedError(true)
+    setValue(Math.round(e.target.value * reqData.lastPrice * 100) / 100);
+    if (
+      Math.round(e.target.value * reqData.lastPrice * 100) / 100 >=
+      availableBalance
+    ) {
+      setExceedError(true);
     }
-    
   };
 
   const savePortfolioComposition = (e) => {
-    if(exceedError==true){
-      window.alert("you have exceed your invested amount, please decrease the quantity");
-      setQuantity("")
-      setExceedError(false)
-      return <PortComposition></PortComposition>
+    if (exceedError == true) {
+      window.alert(
+        "you have exceed your invested amount, please decrease the quantity"
+      );
+      setQuantity("");
+      setExceedError(false);
+      return <PortComposition></PortComposition>;
     }
     let compositionObject = {
       securityName: reqData.nameOfCompany,
@@ -137,16 +151,13 @@ const PortComposition = () => {
       .catch((error) => {
         console.log(error);
       });
-      window.alert("Security added succesfully");
+    window.alert("Security added succesfully");
   };
 
   //console.log(masterData);
 
   return (
     <div>
-      {/* <div>
-        <Navbar />
-      </div> */}
       <div className="c1">
         <h1>Asset and Holdings Details</h1>
         <div className="box"></div>
@@ -176,7 +187,6 @@ const PortComposition = () => {
           <h2>Portfolio Composition</h2>
           <div className="t-gap">
             <table className="table table-bordered table-striped container">
-             
               <thead>
                 <tr style={{ backgroundColor: "black", color: "white" }}>
                   <th>Security Name</th>
@@ -192,8 +202,7 @@ const PortComposition = () => {
               <tbody>
                 {compositionData.loading
                   ? ""
-                  : (
-                    compositionData.data.portfoliocomposition.map(
+                  : compositionData.data.portfoliocomposition.map(
                       (item, index) => {
                         return (
                           <tr key={item.portfolioCompostionId}>
@@ -208,18 +217,24 @@ const PortComposition = () => {
                           </tr>
                         );
                       }
-                    ))}
+                    )}
               </tbody>
             </table>
           </div>
         </div>
         <div className="c2">
-          <button className="btn btn-primary l1" type="submit" onClick={savePortfolioComposition}>Add securities</button>
+          <button
+            className="btn btn-primary l1"
+            type="submit"
+            onClick={savePortfolioComposition}
+          >
+            Add securities
+          </button>
         </div>
         <table>
           <tr bgcolor="#FFC300">
-            <th>Security Name</th>
             <th>Asset class</th>
+            <th>Security Name</th>
             <th>SubAsset class</th>
             <th>Equity Category</th>
             <th>Security Price</th>
@@ -228,6 +243,22 @@ const PortComposition = () => {
             {/* <th>Action</th> */}
           </tr>
           <tr>
+            <td>
+              <div className="drop">
+                <select
+                  value={assetClass}
+                  placeholder="search by asset"
+                  ref={assetInput}
+                  onChange={handleAsset}
+                >
+                  <option value="Equity">Equity</option>
+
+                  <option value="Mutual Funds">Mutual Funds</option>
+
+                  <option value="Commodity">Commodity</option>
+                </select>
+              </div>
+            </td>
             <td>
               <input
                 value={nameOfCompany}
@@ -269,7 +300,6 @@ const PortComposition = () => {
                 })}
               </select> */}
             </td>
-            <td>{reqData.assetClass}</td>
             <td>{reqData.subAssetClass}</td>
             <td>{reqData.equity}</td>
             <td>{reqData.lastPrice}</td>
@@ -296,8 +326,7 @@ const PortComposition = () => {
             SAVE
           </button> */}
 
-          <div>{message}</div>
-       
+        <div>{message}</div>
       </div>
     </div>
   );

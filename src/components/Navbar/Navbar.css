@@ -1,13 +1,23 @@
+
+
 .color {
-  background-color: rgb(158, 217, 237);
+  /* background-color: rgb(143, 136, 185); */
+
+  background-color: #5f264a;
+
+  color: aliceblue;
 }
 
 .home {
   border: none;
-
-  background-color: rgb(158, 217, 237);
+  background-color: #5f264a;
+  color: aliceblue;
 }
 
 .nav-link {
-  margin-left: 10px;
+  margin-left: 0.2%;
+}
+
+.nav-link {
+  margin-left: 0.2%;
 }

@@ -19,7 +19,7 @@ function LandingPage() {
   const [portfolioName, setPortfolioName] = useState("");
   const [editableData, setEditableData] = useState({});
   const [portfolioData, setPortfolioData] = useState([]);
-
+   
   const handleClose = () => setShow(false);
   const handleShow = (portfolioName) => {
     console.log(portfolioName);
@@ -27,6 +27,8 @@ function LandingPage() {
     HeaderService.fetchByPortfolioName(portfolioName)
       .then((response) => {
         setEditableData(response.data);
+        setPortfolioName(response.data.portfolioName);
+        setFundManagerName(response.data.fundManagerName);
       })
       .catch((error) => {
         console.log(error);
@@ -61,24 +63,25 @@ function LandingPage() {
   console.log(portfolios);
 
   const handleSave = () => {
-    // let updateHeaderObj = {
-    //   portfolioName: portfolioName,
-    //   baseCurrency: baseCurrency,
-    //   exchange: exchange,
-    //   benchmark: benchmark,
-    //   fundManagerName: fundManagerName,
-    //   initialInvestment: initialInvestment,
-    //   currentValue: initialInvestment,
-    //   rebalancingFrequency: rebalancingFrequency,
-    //   status: status,
-    //   themeName: themes,
-    // };
-    console.log(portfolioName);
-    console.log(fundManagerName);
-
+    let editedObj = {
+      portfolioName: portfolioName,
+      baseCurrency: editableData.baseCurrency,
+      exchange: editableData.exchange,
+      benchmark: editableData.benchmark,
+      fundManagerName: fundManagerName,
+      initialInvestment: editableData.initialInvestment,
+      currentValue: editableData.initialInvestment,
+      rebalancingFrequency: editableData.rebalancingFrequency,
+      status: editableData.status,
+      themeName: editableData.theme.themeName,
+    };
+     HeaderService.updatePortfolio(portfolioName,editedObj)
+     .then(response=>{setPortfolioData(response.data)})
+     .catch((error)=>{console.log(error)})
+    console.log(editedObj);
     setShow(false);
   };
-
+ 
   return (
     <div>
       <Modal show={show} onHide={handleClose} backdrop="static" keyboard={true}>
@@ -89,13 +92,13 @@ function LandingPage() {
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Portfolio Name</Form.Label>
-              <Form.Control 
-              type="text" 
-              placeholder="" 
-              autoFocus 
-              disabled
-              plaintext
-              value={editableData.portfolioName}
+              <Form.Control
+                type="text"
+                placeholder=""
+                autoFocus
+                disabled
+                plaintext
+                value={editableData.portfolioName}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
@@ -104,8 +107,9 @@ function LandingPage() {
                 type="text"
                 placeholder="change the name"
                 autoFocus
-                value={editableData.fundManagerName}
-                
+                onChange={(e) => {
+                  setFundManagerName(e.target.value);
+                }}
               />
             </Form.Group>
           </Form>
@@ -119,9 +123,7 @@ function LandingPage() {
           </Button>
         </Modal.Footer>
       </Modal>
-      <div>
-        <Navbar />
-      </div>
+
       <div className="tabs">
         <h1 className="tag">MY PORTFOLIOS</h1>
         <div class="row height d-flex justify-content-center align-items-center">
@@ -138,7 +140,10 @@ function LandingPage() {
           </div>
 
           <div className="add">
-            <button className="btn btn-info"  onClick={() => navigate("/portheader")}>
+            <button
+              className="btn btn-info"
+              onClick={() => navigate("/portheader")}
+            >
               Create portfolio
               {/* <svg
                 onClick={() => navigate("/portheader")}
@@ -157,7 +162,7 @@ function LandingPage() {
           <div className="table">
             <table className="my-table">
               <thead>
-                <tr style={{textAlign:"center"}}>
+                <tr style={{ textAlign: "center" }}>
                   <th>S.No</th>
                   <th>Portofolio Name</th>
                   <th>FundManger Name</th>
@@ -196,9 +201,9 @@ function LandingPage() {
                               {item.themeName}
                             </Link>
                           </td>
-                          <td>{item.initialInvestment}</td>
-                          <td  >{item.currentValue}</td>
-                          <td>{item.noOfSecurities}</td>
+                          <td style={{ textAlign: "right" }}>{item.initialInvestment}</td>
+                          <td style={{ textAlign: "right" }}>{item.currentValue}</td>
+                          <td style={{ textAlign: "center" }}>{item.noOfSecurities}</td>
                           <td className="del">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"

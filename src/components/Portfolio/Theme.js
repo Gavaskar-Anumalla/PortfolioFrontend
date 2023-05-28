@@ -44,8 +44,6 @@ const Theme = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
-      {/* <h1>View Theme</h1> */}
       <div className="card">
         <div className="c-head">
           <h1>View Theme</h1>
@@ -55,7 +53,7 @@ const Theme = () => {
           <thead>
             <tr bgcolor="#FFC300">
               <th>Theme</th>
-              <th >Mix</th>
+              <th>Mix</th>
               <th>Allocation %</th>
               <th>Risk</th>
               <th>Investment Horizon</th>
@@ -63,11 +61,13 @@ const Theme = () => {
           </thead>
 
           <tbody>
-            {theme.loading ? "" : (
+            {theme.loading ? (
+              ""
+            ) : (
               <tr>
                 <td>{theme.data.themeName}</td>
-                <td >Equity </td>
-               
+                <td>Equity </td>
+
                 <td>{theme.data.equities}</td>
                 <td>{theme.data.risk}</td>
                 <td>{theme.data.investmentHorizon}</td>
@@ -75,10 +75,11 @@ const Theme = () => {
             )}
           </tbody>
         </table>
-        
       </div>
 
-      <Link className="btn btn-primary" to='/'>Go Back</Link>
+      <Link className="btn btn-primary" to="/">
+        Go Back
+      </Link>
     </>
   );
 };
